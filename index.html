@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Campus Virtual Assistant</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+
+  <div id="login">
+    <h1>🎓 Smart Campus Virtual Assistant</h1>
+    <p>Enter your name to start chatting</p>
+    <input id="nameInput" placeholder="Your name" maxlength="30">
+    <br>
+    <button onclick="startChat()">Start</button>
+  </div>
+
+  <div id="chat-screen">
+    <header>
+      <div class="title" id="headerTitle">🎓 Campus Assistant</div>
+      <div class="clock" id="clock"></div>
+    </header>
+    <div id="messages"></div>
+    <div id="quick-actions">
+      <button onclick="quick('timetable')">Timetable</button>
+      <button onclick="quick('faculty')">Faculty</button>
+      <button onclick="quick('events')">Events</button>
+      <button onclick="quick('canteen')">Canteen</button>
+      <button onclick="quick('library')">Library</button>
+      <button onclick="quick('complaint')">Complaint</button>
+    </div>
+    <div id="input-bar">
+      <input id="userInput" placeholder="Type a message..." autocomplete="off">
+      <button onclick="onSend()">Send</button>
+    </div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
