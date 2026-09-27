@@ -1,6 +1,8 @@
-# 🎓 Smart Campus Virtual Assistant (Console Version)
+# 🎓 Smart Campus Virtual Assistant
 
-A simple, console-based chatbot built in **Python** that helps students get instant answers to common campus queries — timetables, faculty contacts, events, canteen menus, and general FAQs. No external libraries or setup required — runs with plain Python.
+A dashboard-style campus companion built with plain **HTML, CSS, and JavaScript** — no frameworks, no backend, no build tools. Students get a sidebar-driven dashboard for notices, events, timetable, and faculty info, plus a built-in chat assistant for quick questions.
+
+**Live Demo:** `https://<your-username>.github.io/<repo-name>/`
 
 ---
 
@@ -8,104 +10,107 @@ A simple, console-based chatbot built in **Python** that helps students get inst
 
 | Feature | Description |
 |---|---|
-| 💬 Conversational Chat | Text-based Q&A in the terminal |
-| 📅 Timetable Lookup | Class schedule by day of the week |
-| 👨‍🏫 Faculty Directory | Contact info by subject (math, physics, chemistry, cs, electronics, english) |
-| 📢 Campus Events | Upcoming fests, lectures, and activities |
-| 🍽️ Canteen Menu | Daily menu lookup |
-| 📚 Quick FAQs | Library timings, fee payment, Wi-Fi login, ID card, hostel info |
-| 🧠 Keyword-Based Intent Matching | Understands natural phrasing, not just exact commands |
+| 🧭 Sidebar Dashboard | Navigate between Dashboard, Notices, Events, Timetable, Faculty, Assistant, and Settings |
+| 🏠 Dashboard Home | Welcome banner + quick-access cards summarizing what's new |
+| 📢 Notices | Latest campus announcements, tagged by category |
+| 📅 Events | Upcoming fests, lectures, and activities |
+| 🕐 Timetable | Class schedule with day tabs |
+| 👨‍🏫 Faculty Directory | Browsable grid of subject-wise teacher contacts |
+| 🤖 Campus Assistant | Built-in chatbot for typed questions, with quick-reply buttons |
+| 📝 Complaint Filing | Multi-step complaint flow, saved locally in the browser |
+| ⚙️ Settings | Set your name, or clear your locally saved data |
+| 📱 Responsive | Sidebar collapses to a hamburger menu on mobile |
+| 🌗 Adaptive Theme | Matches system light/dark mode automatically |
+| ✨ Smooth Interactions | Hover/press feedback and animated view transitions throughout |
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Python 3** (standard library only — `re`, `sys`, `datetime`)
-- No installations, frameworks, or internet connection required
+- **HTML5** – page structure (sidebar + multi-section dashboard)
+- **CSS3** – theming, responsive layout, transitions/animations
+- **Vanilla JavaScript** – view routing, chatbot logic, and rendering
+- **Browser `localStorage`** – persists your name and filed complaints on that device
+
+No external libraries, APIs, or backend server required (Google Fonts is loaded from a CDN for typography only).
 
 ---
 
 ## 📁 Project Structure
 
 ```
-smart-campus-assistant/
-├── smart_campus_assistant.py   # Main chatbot script
-└── README.md                   # Project documentation
+campus-assistant/
+├── index.html      # Sidebar + all dashboard sections
+├── style.css       # Theming, layout, responsive rules, animations
+├── script.js       # Campus data, chatbot logic, view switching, rendering
+└── README.md       # Project documentation
 ```
 
 ---
 
 ## 🚀 Getting Started
 
-### Requirements
-- Python 3.6 or later installed on your system
+### Run Locally
+1. Download or clone this repository.
+2. Open `index.html` directly in any browser — that's it.
+   - *Optional:* use the VS Code "Live Server" extension for auto-reload while editing.
 
-### Run It
-1. Download `smart_campus_assistant.py`.
-2. Open a terminal (or VS Code's integrated terminal) in that folder.
-3. Run:
+### Deploy on GitHub Pages
+1. Push `index.html`, `style.css`, and `script.js` to your repository's root.
+2. Go to **Settings → Pages**.
+3. Under **Build and deployment**, set:
+   - **Source:** `Deploy from a branch`
+   - **Branch:** `main`, folder `/ (root)`
+4. Click **Save** and wait a minute.
+5. Your site will be live at:
    ```
-   python smart_campus_assistant.py
+   https://<your-username>.github.io/<repo-name>/
    ```
-4. Enter your name when prompted, then start chatting.
+
+> When updating files later, replace the *entire* contents of each file rather than pasting on top of old code, then hard-refresh (`Ctrl+Shift+R`) or test in an incognito window to avoid seeing a cached version.
 
 ---
 
 ## 💡 Usage
 
-Type a message in plain English. Examples:
+- Click any sidebar item, or a dashboard card, to jump to that section.
+- On **Timetable**, click a day tab to see that day's classes.
+- On **Assistant**, type a message or tap a quick-action button:
 
 | Command | Example |
 |---|---|
 | Timetable | `timetable monday` |
 | Faculty info | `faculty` → then `english` |
+| Notices | `notices` |
 | Events | `events` |
 | Canteen menu | `canteen friday` |
 | Library / Fees / Wi-Fi / ID Card / Hostel | `library`, `fee`, `wifi`, `id card`, `hostel` |
+| File a complaint | `complaint` → follow the prompts |
 | See all commands | `help` |
 | End chat | `bye` / `exit` / `quit` |
 
-**Sample session:**
-```
-Enter your name: Sumit
-===================================================
-   SMART CAMPUS VIRTUAL ASSISTANT
-===================================================
-Type 'help' anytime to see available commands.
-
-Sumit: timetable monday
-Assistant: Timetable for Monday:
-  - 9:00 Math
-  - 10:00 Physics
-  - 11:00 CS Lab
-  - 1:00 English
-
-Sumit: faculty
-Assistant: Please mention a subject (math, physics, chemistry, cs, electronics, english) to get faculty contact details.
-
-Sumit: english
-Assistant: English Faculty: Ms. P. Nair - Room 101 - p.nair@campus.edu
-```
+The dashboard's "Ask something..." box sends your question straight to the Assistant section.
 
 ---
 
 ## 🔧 Customization
 
-All campus-specific data lives inside the `CampusAssistant.__init__` method:
-- `self.timetable` – class schedule by day
-- `self.faculty` – subject-wise teacher contacts
-- `self.events` – upcoming campus events
-- `self.canteen_menu` – daily menu
-- `self.faqs` – library, fee, Wi-Fi, ID card, hostel answers
+All campus-specific data lives at the top of **`script.js`**:
+- `faculty` – subject-wise teacher contacts
+- `timetable` – class schedule by day
+- `canteenMenu` – daily menu
+- `events` – upcoming campus events
+- `notices` – campus announcements (date, tag, title)
+- `faqs` – library, fee, Wi-Fi, ID card, hostel answers
 
-Update these dictionaries with your own college's information.
+Update these objects/arrays with your own college's information. Colors, fonts, and spacing live in the CSS variables and rules in **`style.css`**.
 
 ---
 
 ## 🎯 Future Enhancements
 
-- Graphical interface (Tkinter) or web version (HTML/CSS/JS)
-- Persistent storage (database) for complaints and chat history
+- Backend integration (e.g. Firebase or a REST API) for shared, persistent data across devices
+- Admin panel to view and resolve submitted complaints
 - Voice input/output support
 - Natural language understanding for more flexible queries
 
