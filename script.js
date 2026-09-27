@@ -1,307 +1,144 @@
-/* ---------------- Data ---------------- */
-const DAYS = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Campus Virtual Assistant</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
 
-const faculty = {
-  math: {name:"Dr. A. Sharma", room:"Room 204", email:"a.sharma@campus.edu"},
-  physics: {name:"Dr. R. Verma", room:"Room 210", email:"r.verma@campus.edu"},
-  chemistry: {name:"Dr. S. Iyer", room:"Room 118", email:"s.iyer@campus.edu"},
-  cs: {name:"Prof. N. Rao", room:"Room 305", email:"n.rao@campus.edu"},
-  electronics: {name:"Dr. K. Menon", room:"Room 220", email:"k.menon@campus.edu"},
-  english: {name:"Ms. P. Nair", room:"Room 101", email:"p.nair@campus.edu"},
-};
+  <aside id="sidebar">
+    <div class="brand">
+      <span class="brand-icon">🎓</span>
+      <div>
+        <strong>Smart Campus</strong>
+        <span>Virtual Assistant</span>
+      </div>
+    </div>
+    <nav id="nav">
+      <button class="nav-item active" data-view="dashboard"><span>🏠</span>Dashboard</button>
+      <button class="nav-item" data-view="notices"><span>📢</span>Notices</button>
+      <button class="nav-item" data-view="events"><span>📅</span>Events</button>
+      <button class="nav-item" data-view="timetable"><span>🕐</span>Timetable</button>
+      <button class="nav-item" data-view="faculty"><span>👥</span>Faculty</button>
+      <button class="nav-item" data-view="assistant"><span>🤖</span>Assistant</button>
+      <button class="nav-item" data-view="settings"><span>⚙️</span>Settings</button>
+    </nav>
+    <div class="sidebar-footer">Learn &nbsp;•&nbsp; Grow &nbsp;•&nbsp; Succeed</div>
+  </aside>
 
-const timetable = {
-  monday: ["09:00 - Math","10:00 - Physics","11:00 - CS Lab","13:00 - English"],
-  tuesday: ["09:00 - Chemistry","10:00 - Math","11:00 - Electronics","13:00 - CS"],
-  wednesday: ["09:00 - CS","10:00 - Physics Lab","12:00 - Workshop"],
-  thursday: ["09:00 - Math","10:00 - English","11:00 - CS","13:00 - Elective"],
-  friday: ["09:00 - Electronics","10:00 - CS Lab","12:00 - Seminar"],
-  saturday: ["09:00 - Sports","10:00 - Club Activities"],
-  sunday: ["No classes - Holiday"],
-};
+  <div id="overlay"></div>
 
-const canteenMenu = {
-  monday:"Poha, Sandwich, Veg Thali, Cold Coffee",
-  tuesday:"Idli-Sambhar, Pasta, Veg Thali, Lassi",
-  wednesday:"Paratha, Noodles, Veg Thali, Tea/Coffee",
-  thursday:"Upma, Burger, Veg Thali, Milkshake",
-  friday:"Dosa, Pizza Slice, Veg Thali, Juice",
-  saturday:"Puri-Bhaji, Sandwich, Special Thali",
-  sunday:"Canteen Closed",
-};
+  <main id="main">
+    <header id="topbar">
+      <button id="menuToggle" aria-label="Menu">☰</button>
+      <div class="spacer"></div>
+      <div class="user-chip">👤 <span id="userNameChip">Student</span></div>
+    </header>
 
-const events = [
-  {date:"2026-10-10", title:"Tech Fest 'Innovate 2026' at Main Auditorium"},
-  {date:"2026-10-15", title:"Guest Lecture on AI Ethics, 3 PM, Seminar Hall"},
-  {date:"2026-10-20", title:"Inter-college Sports Meet"},
-  {date:"2026-10-25", title:"Cultural Night at Open Air Theatre"},
-];
+    <div id="content">
 
-const notices = [
-  {date:"2026-09-25", tag:"Exams", title:"Mid-semester exam datesheet released"},
-  {date:"2026-09-24", tag:"Library", title:"Extended library hours during exam week"},
-  {date:"2026-09-20", tag:"Hostel", title:"Water supply maintenance on Sept 28"},
-  {date:"2026-09-18", tag:"Fees", title:"Fee payment deadline extended to Oct 5"},
-  {date:"2026-09-15", tag:"IT", title:"New WiFi network 'Campus-WiFi-5G' now live"},
-];
+      <section id="view-dashboard" class="view active">
+        <div class="welcome-banner">
+          <h1>Welcome, <span id="welcomeName">Student</span>! 👋</h1>
+          <p>Here's what's happening on campus today.</p>
+        </div>
+        <div class="cards-grid">
+          <button class="info-card" data-goto="notices">
+            <div class="icon red">📢</div>
+            <h3>Notices</h3>
+            <p id="cardNotices">-- New Notices</p>
+          </button>
+          <button class="info-card" data-goto="events">
+            <div class="icon green">📅</div>
+            <h3>Events</h3>
+            <p id="cardEvents">-- Upcoming Events</p>
+          </button>
+          <button class="info-card" data-goto="timetable">
+            <div class="icon blue">🕐</div>
+            <h3>Timetable</h3>
+            <p id="cardTimetable">-- Classes Today</p>
+          </button>
+          <button class="info-card" data-goto="faculty">
+            <div class="icon purple">👤</div>
+            <h3>Faculty</h3>
+            <p>View Faculty Details</p>
+          </button>
+        </div>
+        <div class="assistant-preview">
+          <div class="assistant-avatar">🤖</div>
+          <div class="assistant-copy">
+            <h3>Campus Assistant</h3>
+            <p>Have a question about your campus?</p>
+          </div>
+          <div class="ask-row">
+            <input id="quickAsk" placeholder="Ask something...">
+            <button id="quickAskBtn">Ask Assistant</button>
+          </div>
+        </div>
+      </section>
 
-const faqs = {
-  library:"The library is open from 8:00 AM to 8:00 PM, Monday to Saturday.",
-  fee:"Fees can be paid online via the campus portal under 'Payments' or at the Accounts Office (Room 5, Admin Block).",
-  wifi:"Connect to 'Campus-WiFi', login with your student ID and default password 'campus@123' (change it after first login).",
-  "id card":"Lost ID cards can be reissued at the Admin Office by submitting a written request and a passport photo.",
-  hostel:"Hostel enquiries are handled by the Warden's Office, Block C, open 9 AM - 5 PM on weekdays.",
-};
+      <section id="view-notices" class="view">
+        <h2>Notices</h2>
+        <div id="noticesList" class="list-panel"></div>
+      </section>
 
-/* ---------------- State ---------------- */
-let studentName = "Student";
-let pendingContext = null;
-let complaintCategory = null;
+      <section id="view-events" class="view">
+        <h2>Campus Events</h2>
+        <div id="eventsList" class="list-panel"></div>
+      </section>
 
-function loadName(){
-  try{ return localStorage.getItem("campus_student_name") || "Student"; }catch(e){ return "Student"; }
-}
-function saveName(name){
-  try{ localStorage.setItem("campus_student_name", name); }catch(e){}
-}
-function loadComplaints(){
-  try{ return JSON.parse(localStorage.getItem("campus_complaints") || "[]"); }catch(e){ return []; }
-}
-function saveComplaint(c){
-  try{
-    const list = loadComplaints();
-    list.push(c);
-    localStorage.setItem("campus_complaints", JSON.stringify(list));
-  }catch(e){}
-}
+      <section id="view-timetable" class="view">
+        <h2>Timetable</h2>
+        <div id="dayTabs" class="day-tabs"></div>
+        <div id="timetableList" class="list-panel"></div>
+      </section>
 
-/* ---------------- Assistant logic ---------------- */
-function extractDay(text){ return DAYS.find(d => text.includes(d)) || null; }
-function todayName(){ return new Date().toLocaleDateString("en-US",{weekday:"long"}).toLowerCase(); }
-function cap(s){
-  if(s === "cs") return "CS";
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
+      <section id="view-faculty" class="view">
+        <h2>Faculty Directory</h2>
+        <div id="facultyGrid" class="cards-grid"></div>
+      </section>
 
-function getResponse(raw){
-  const text = raw.toLowerCase().trim().replace(/[^a-z0-9\s]/g,"");
+      <section id="view-assistant" class="view">
+        <h2>Campus Assistant</h2>
+        <div id="chat-screen">
+          <div id="messages"></div>
+          <div id="quick-actions">
+            <button data-q="timetable">Timetable</button>
+            <button data-q="faculty">Faculty</button>
+            <button data-q="events">Events</button>
+            <button data-q="canteen">Canteen</button>
+            <button data-q="library">Library</button>
+            <button data-q="complaint">Complaint</button>
+          </div>
+          <div id="input-bar">
+            <input id="userInput" placeholder="Type a message..." autocomplete="off">
+            <button id="sendBtn">Send</button>
+          </div>
+        </div>
+      </section>
 
-  if(pendingContext === "await_subject"){
-    pendingContext = null;
-    const subj = Object.keys(faculty).find(s => text.includes(s));
-    if(subj){ const f = faculty[subj]; return `${cap(subj)} Faculty: ${f.name} - ${f.room} - ${f.email}`; }
-    return "I still couldn't find that subject. Try: math, physics, chemistry, cs, electronics, english.";
-  }
-  if(pendingContext === "await_complaint_category"){
-    complaintCategory = raw.trim().replace(/\b\w/g, c => c.toUpperCase());
-    pendingContext = "await_complaint_message";
-    return `Got it (${complaintCategory}). Please describe the issue in one line.`;
-  }
-  if(pendingContext === "await_complaint_message"){
-    saveComplaint({student:studentName, category:complaintCategory, message:raw.trim(), time:new Date().toISOString()});
-    pendingContext = null;
-    const cat = complaintCategory; complaintCategory = null;
-    return `Your ${cat} complaint has been logged. The concerned office will reach out soon.`;
-  }
+      <section id="view-settings" class="view">
+        <h2>Settings</h2>
+        <div class="list-panel settings-panel">
+          <label for="nameInput">Your name</label>
+          <input id="nameInput" placeholder="Student" maxlength="30">
+          <button id="saveNameBtn">Save</button>
+          <hr>
+          <p class="muted">Complaints and your name are stored only in this browser (localStorage).</p>
+          <button id="clearDataBtn" class="danger">Clear my saved data</button>
+        </div>
+      </section>
 
-  if(/\b(hi|hello|hey)\b/.test(text)) return `Hello ${studentName}! Type 'help' to see what I can do.`;
-  if(/\b(bye|exit|quit)\b/.test(text)) return "__EXIT__";
-  if(/(timetable|schedule|classes)/.test(text)){
-    const day = extractDay(text) || todayName();
-    const rows = timetable[day];
-    return rows ? `Timetable for ${cap(day)}:\n  - ${rows.join("\n  - ")}` : "No timetable data for that day.";
-  }
-  if(/(faculty|teacher|professor|subject)/.test(text) || Object.keys(faculty).some(s=>text.includes(s))){
-    const subj = Object.keys(faculty).find(s => text.includes(s));
-    if(subj){ const f = faculty[subj]; return `${cap(subj)} Faculty: ${f.name} - ${f.room} - ${f.email}`; }
-    pendingContext = "await_subject";
-    return `Which subject? (${Object.keys(faculty).join(", ")})`;
-  }
-  if(/(notice|notices)/.test(text))
-    return "Latest Notices:\n  - " + notices.map(n => `[${n.tag}] ${n.title}`).join("\n  - ");
-  if(/(event|events|fest)/.test(text))
-    return "Upcoming Campus Events:\n  - " + events.map(e => `${e.date} - ${e.title}`).join("\n  - ");
-  if(/(canteen|menu|food)/.test(text)){
-    const day = extractDay(text) || todayName();
-    return `Canteen Menu for ${cap(day)}: ${canteenMenu[day]}`;
-  }
-  if(/library/.test(text)) return faqs.library;
-  if(/(fee|payment)/.test(text)) return faqs.fee;
-  if(/(wifi|internet)/.test(text)) return faqs.wifi;
-  if(/(id ?card)/.test(text)) return faqs["id card"];
-  if(/hostel/.test(text)) return faqs.hostel;
-  if(/(complaint|complain|issue|problem)/.test(text)){
-    pendingContext = "await_complaint_category";
-    return "Sorry to hear that. What category is this? (hostel, academic, canteen, wifi, other)";
-  }
-  if(/(help|options|menu)/.test(text))
-    return "Ask me about: timetable, faculty, notices, events, canteen, library, fee, wifi, id card, hostel, or complaint.";
+    </div>
+  </main>
+</div>
 
-  return "Sorry, I didn't understand that. Try 'help' to see what I can assist you with.";
-}
-
-/* ---------------- Chat UI ---------------- */
-function appendMsg(text, cls){
-  const box = document.getElementById("messages");
-  const div = document.createElement("div");
-  div.className = "msg " + cls;
-  div.textContent = text;
-  box.appendChild(div);
-  box.scrollTop = box.scrollHeight;
-}
-function userSay(text){ appendMsg(studentName + ": " + text, "user"); }
-function botSay(text){ appendMsg("Assistant: " + text, "bot"); }
-
-function handleInput(text){
-  if(!text.trim()) return;
-  userSay(text);
-  const resp = getResponse(text);
-  if(resp === "__EXIT__"){
-    botSay("Goodbye! Have a great day on campus.");
-    document.getElementById("userInput").disabled = true;
-    return;
-  }
-  botSay(resp);
-}
-
-function sendFromMainInput(){
-  const input = document.getElementById("userInput");
-  const text = input.value;
-  input.value = "";
-  handleInput(text);
-}
-
-/* ---------------- View switching ---------------- */
-function showView(name){
-  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
-  document.getElementById("view-" + name)?.classList.add("active");
-  document.querySelectorAll(".nav-item").forEach(b => b.classList.toggle("active", b.dataset.view === name));
-  document.getElementById("sidebar").classList.remove("open");
-  document.getElementById("overlay").classList.remove("show");
-  if(name === "assistant") document.getElementById("userInput")?.focus();
-}
-
-/* ---------------- Renderers ---------------- */
-function renderDashboard(){
-  document.getElementById("welcomeName").textContent = studentName;
-  document.getElementById("userNameChip").textContent = studentName;
-  document.getElementById("cardNotices").textContent = `${notices.length} New Notices`;
-  document.getElementById("cardEvents").textContent = `${events.length} Upcoming Events`;
-  const today = todayName();
-  document.getElementById("cardTimetable").textContent = `${(timetable[today]||[]).length} Classes Today`;
-}
-
-function renderNotices(){
-  const box = document.getElementById("noticesList");
-  box.innerHTML = notices.map(n => `
-    <div class="list-row">
-      <span class="tag">${n.tag}</span>
-      <div class="title">${n.title}</div>
-      <div class="meta">${n.date}</div>
-    </div>`).join("");
-}
-
-function renderEvents(){
-  const box = document.getElementById("eventsList");
-  box.innerHTML = events.map(e => `
-    <div class="list-row">
-      <div class="title">${e.title}</div>
-      <div class="meta">${e.date}</div>
-    </div>`).join("");
-}
-
-function renderTimetable(day){
-  const tabs = document.getElementById("dayTabs");
-  if(!tabs.dataset.built){
-    tabs.innerHTML = DAYS.map(d => `<button data-day="${d}">${cap(d)}</button>`).join("");
-    tabs.dataset.built = "1";
-    tabs.addEventListener("click", e => {
-      const btn = e.target.closest("button[data-day]");
-      if(btn) renderTimetable(btn.dataset.day);
-    });
-  }
-  const activeDay = day || todayName();
-  tabs.querySelectorAll("button").forEach(b => b.classList.toggle("active", b.dataset.day === activeDay));
-  const list = document.getElementById("timetableList");
-  const rows = timetable[activeDay] || [];
-  list.innerHTML = rows.map(r => `<div class="list-row">${r}</div>`).join("") ||
-    `<div class="list-row">No classes.</div>`;
-}
-
-function renderFaculty(){
-  const grid = document.getElementById("facultyGrid");
-  grid.innerHTML = Object.entries(faculty).map(([subject, f]) => `
-    <div class="faculty-card">
-      <div class="subject">${cap(subject)}</div>
-      <h3>${f.name}</h3>
-      <div class="meta">${f.room}<br>${f.email}</div>
-    </div>`).join("");
-}
-
-/* ---------------- Init ---------------- */
-document.addEventListener("DOMContentLoaded", () => {
-  studentName = loadName();
-  document.getElementById("nameInput").value = studentName === "Student" ? "" : studentName;
-
-  renderDashboard();
-  renderNotices();
-  renderEvents();
-  renderTimetable();
-  renderFaculty();
-  botSay(`Hello ${studentName}! I'm your Campus Assistant. Type 'help' to see what I can do.`);
-
-  // Sidebar nav
-  document.querySelectorAll(".nav-item").forEach(btn => {
-    btn.addEventListener("click", () => showView(btn.dataset.view));
-  });
-  // Dashboard cards
-  document.querySelectorAll(".info-card").forEach(card => {
-    card.addEventListener("click", () => showView(card.dataset.goto));
-  });
-
-  // Mobile menu toggle
-  document.getElementById("menuToggle").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.toggle("open");
-    document.getElementById("overlay").classList.toggle("show");
-  });
-  document.getElementById("overlay").addEventListener("click", () => {
-    document.getElementById("sidebar").classList.remove("open");
-    document.getElementById("overlay").classList.remove("show");
-  });
-
-  // Dashboard quick-ask
-  document.getElementById("quickAskBtn").addEventListener("click", () => {
-    const val = document.getElementById("quickAsk").value;
-    document.getElementById("quickAsk").value = "";
-    if(!val.trim()) return;
-    showView("assistant");
-    handleInput(val);
-  });
-  document.getElementById("quickAsk").addEventListener("keydown", e => {
-    if(e.key === "Enter") document.getElementById("quickAskBtn").click();
-  });
-
-  // Assistant chat controls
-  document.getElementById("sendBtn").addEventListener("click", sendFromMainInput);
-  document.getElementById("userInput").addEventListener("keydown", e => { if(e.key==="Enter") sendFromMainInput(); });
-  document.querySelectorAll("#quick-actions button").forEach(b => {
-    b.addEventListener("click", () => handleInput(b.dataset.q));
-  });
-
-  // Settings
-  document.getElementById("saveNameBtn").addEventListener("click", () => {
-    const val = document.getElementById("nameInput").value.trim() || "Student";
-    studentName = val;
-    saveName(val);
-    renderDashboard();
-  });
-  document.getElementById("clearDataBtn").addEventListener("click", () => {
-    try{
-      localStorage.removeItem("campus_complaints");
-      localStorage.removeItem("campus_student_name");
-    }catch(e){}
-    studentName = "Student";
-    document.getElementById("nameInput").value = "";
-    renderDashboard();
-  });
-});
+<script src="script.js"></script>
+</body>
+</html>
